@@ -15,7 +15,13 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private long userID;
+
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "first_name")
@@ -35,4 +41,5 @@ public class User {
 
     @Column(name = "address_2")
     private String address2;
+
 }

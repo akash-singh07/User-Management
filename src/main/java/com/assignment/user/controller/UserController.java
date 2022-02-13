@@ -1,8 +1,7 @@
 package com.assignment.user.controller;
 
-import com.assignment.user.exception.ResourceNotFoundException;
 import com.assignment.user.model.User;
-import com.assignment.user.repository.UserRepository;
+import com.assignment.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,56 +9,37 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userRepository.save(user);
+    public User createUser(@RequestBody User user) throws Exception {
+        return userService.createUser(user);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUser(@PathVariable String id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User does not exist with id " + id));
-        return ResponseEntity.ok(user);
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return userService.getUser(id);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable String id, @RequestBody User userDetails) {
-        User updateUser = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with id " + id));
-
-        updateUser.setFirstName(userDetails.getFirstName());
-        updateUser.setLastName(userDetails.getLastName());
-        updateUser.setMobileNumber(userDetails.getMobileNumber());
-        updateUser.setEmailID(userDetails.getEmailID());
-        updateUser.setAddress1(userDetails.getAddress1());
-        updateUser.setAddress2(userDetails.getAddress2());
-
-        userRepository.save(updateUser);
-
-        return ResponseEntity.ok(updateUser);
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) throws Exception {
+        return userService.updateUser(id, userDetails);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable String id) {
-
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User do not exist with id " + id));
-
-        userRepository.delete(user);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+        return userService.deleteUser(id);
     }
 
 }
