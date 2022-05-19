@@ -1,2 +1,2 @@
 # User-Management
-REST Application for user management
+REST Application for user management to perform CRUD operations
