@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -29,22 +30,16 @@ public class UserService {
         if (userRepository.findByMobileNumber(user.getMobileNumber()) != null)
             throw new Exception("User with same mobile number already exists.");
 
-//        List<User> userList = userRepository.findAll();
-//        for (User obj: userList) {
-//            if (user.getEmailID().equals(obj.getEmailID()))
-//                throw new Exception("User with same E-mail already exists.");
-//            if (user.getUserName().equals(obj.getUserName()))
-//                throw new Exception("User with same username already exists.");
-//            if (user.getMobileNumber().equals(obj.getMobileNumber()))
-//                throw new Exception("User with same mobile number already exists.");
-//        }
-
         return userRepository.save(user);
     }
 
     public ResponseEntity<User> getUser(Long id) {
-        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User does not exist with id " + id));
-        return ResponseEntity.ok(user);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get());
+        } else {
+            throw new ResourceNotFoundException("User does not exist with id " + id);
+        }
     }
 
     public ResponseEntity<User> updateUser(Long id, User updateUser) throws Exception {
@@ -68,9 +63,12 @@ public class UserService {
     }
 
     public ResponseEntity<HttpStatus> deleteUser(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with id " + id));
-        userRepository.delete(user);
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.delete(user.get());
+        } else {
+            throw new ResourceNotFoundException("User does not exist with id " + id);
+        }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

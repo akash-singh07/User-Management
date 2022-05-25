@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,28 +36,30 @@ class UserServiceTest {
         assertEquals(user, userService.createUser(user));
     }
 
-//    @Test
-//    void getUserTest() {
-//        Long id = new Long(1);
-//        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
-//        when(userRepository.getById(id)).thenReturn(user);
-//        assertEquals(user, userService.getUser(id));
-//    }
-//
-//    @Test
-//    void updateUserTest() throws Exception {
-//        Long id = new Long(1);
-//        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
-//        userService.updateUser(id, user);
-//        verify(userRepository, times(1)).save(user);
-//    }
-//
-//    @Test
-//    void deleteUserTest() {
-//        Long id = new Long(1);
-//        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
-//        userService.deleteUser(id);
-//        verify(userRepository, times(1)).delete(user);
-//    }
+    @Test
+    void getUserTest() {
+        Long id = 1L;
+        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        assertEquals(user, userService.getUser(id).getBody());
+    }
+
+    @Test
+    void updateUserTest() throws Exception {
+        Long id = 1L;
+        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        userService.updateUser(id, user);
+        verify(userRepository, times(1)).save(user);
+    }
+
+    @Test
+    void deleteUserTest() {
+        Long id = 1L;
+        User user = new User(1, "akash", "Akash", "Singh", "0123456789", "akash@gmail.com", "abc", "abc");
+        when(userRepository.findById(id)).thenReturn(Optional.of(user));
+        userService.deleteUser(id);
+        verify(userRepository, times(1)).delete(user);
+    }
 
 }
