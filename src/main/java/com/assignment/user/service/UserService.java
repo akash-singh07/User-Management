@@ -50,7 +50,7 @@ public class UserService {
     public ResponseEntity<User> updateUser(Long id, User updateUser) throws Exception {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with id " + id));
-
+        existingUser.setUserName(updateUser.getUserName());
         existingUser.setFirstName(updateUser.getFirstName());
         existingUser.setLastName(updateUser.getLastName());
         existingUser.setMobileNumber(updateUser.getMobileNumber());
