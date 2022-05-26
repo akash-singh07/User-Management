@@ -42,4 +42,14 @@ public class User {
     @Column(name = "address_2")
     private String address2;
 
+    public User(String userName, String firstName, String lastName, String mobileNumber, String emailID, String address1, String address2) {
+        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mobileNumber = mobileNumber;
+        this.emailID = emailID;
+        this.address1 = address1;
+        this.address2 = address2;
+    }
+
 }
