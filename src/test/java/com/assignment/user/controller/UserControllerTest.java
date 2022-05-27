@@ -70,4 +70,10 @@ class UserControllerTest {
         assertTrue(actualMessage.contains(expectedMessage));
     }
 
+    @Test
+    @Order(6)
+    void sortTest() {
+        userService.bubbleSort();
+    }
+
 }
