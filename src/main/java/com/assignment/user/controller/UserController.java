@@ -42,4 +42,8 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    public void hello() {
+        System.out.println("Hello");
+    }
+
 }

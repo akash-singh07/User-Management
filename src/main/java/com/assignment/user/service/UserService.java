@@ -71,4 +71,8 @@ public class UserService {
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    public void hello() {
+        System.out.println("Hello");
+    }
 }
