@@ -1,2 +1,2 @@
 # User-Management
-REST Application for user management to perform CRUD operations on user table
+REST Application for user management to perform CRUD (Create, Retrieve, Update, Delete) operations on user table
